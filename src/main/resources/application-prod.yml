@@ -1,0 +1,23 @@
+server: 
+  port: 8082
+  
+people:
+  name: xiuxiu
+  age: 18
+  
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #支持驼峰命名自动映射
+    mapUnderscoreToCamelCase: true
+  mapperLocations:
+    - classpath*:mybatis/**/*.xml
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.4.171:3306/dev_bus?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+    username: develop
+    password: develop
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
