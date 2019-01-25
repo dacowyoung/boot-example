@@ -66,7 +66,8 @@ public class PeopleProperties {
     getter,setter...
 }  
 ```
-* dev,prod不同环境配置切换,增加application-dev.yml和application-prod.yml,idea中根据application.yml中spring.profiles.active属性值变化进行切换.
+* dev,prod不同环境配置切换,增加application-dev.yml和application-prod.yml.  
+idea中根据application.yml中spring.profiles.active属性值变化进行切换.  
 服务器上使用java -jar example.jar启动时增加--spring.profiles.active=prod环境参数,进行不同环境配置动态切换
 ```
 spring:
@@ -253,7 +254,7 @@ public class UserServiceImpl implements UserService {
 整个CRUD模块完成,两个类UserCtrl,UserServiceImpl,一个接口UserService.对应的model,mapper,xml都由mybatis-generator自动生成,代码简洁明了
 
 #### 6.事务管理
-*  使用@Transactional进行事务管理,保证方法中要么同时成功,要么同时失败回滚
+*  使用@Transactional进行事务管理,保证方法中要么同时成功,要么同时失败,事务回滚
 ```
 @Override
 @Transactional
