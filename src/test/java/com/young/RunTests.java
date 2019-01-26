@@ -1,4 +1,4 @@
-package com.young.bootexample;
+package com.young;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

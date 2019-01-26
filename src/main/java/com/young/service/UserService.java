@@ -1,6 +1,6 @@
-package com.young.bootexample.service;
+package com.young.service;
 
-import com.young.bootexample.model.TestUser;
+import com.young.model.TestUser;
 
 import java.util.List;
 

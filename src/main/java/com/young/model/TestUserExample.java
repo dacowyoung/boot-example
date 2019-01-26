@@ -1,4 +1,4 @@
-package com.young.bootexample.model;
+package com.young.model;
 
 import java.util.ArrayList;
 import java.util.List;

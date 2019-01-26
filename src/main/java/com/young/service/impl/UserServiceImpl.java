@@ -1,15 +1,14 @@
-package com.young.bootexample.service.impl;
+package com.young.service.impl;
 
-import com.young.bootexample.dao.TestUserMapper;
-import com.young.bootexample.model.TestUser;
-import com.young.bootexample.model.TestUserExample;
-import com.young.bootexample.service.UserService;
+import com.young.dao.TestUserMapper;
+import com.young.model.TestUser;
+import com.young.model.TestUserExample;
+import com.young.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author: young

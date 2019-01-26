@@ -1,8 +1,9 @@
-package com.young.bootexample.ctrl;
+package com.young.ctrl;
 
-import com.young.bootexample.model.TestUser;
-import com.young.bootexample.service.UserService;
-import jdk.nashorn.internal.ir.ReturnNode;
+import com.young.model.TestUser;
+import com.young.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,6 +22,8 @@ import java.util.List;
  */
 @RestController
 public class UserCtrl {
+
+    private final static Logger log = LoggerFactory.getLogger(UserCtrl.class);
 
     @Autowired
     private UserService userService;
@@ -50,10 +52,10 @@ public class UserCtrl {
     public void del(@RequestParam("id") String id) {
         userService.del(id);
     }
-    
-    @GetMapping("/user/addTwo") 
-    public void addTwo(){
-       userService.addTwo(); 
+
+    @GetMapping("/user/addTwo")
+    public void addTwo() {
+        userService.addTwo();
     }
-    
+
 }

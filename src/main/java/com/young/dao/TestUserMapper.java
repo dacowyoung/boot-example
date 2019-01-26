@@ -1,7 +1,7 @@
-package com.young.bootexample.dao;
+package com.young.dao;
 
-import com.young.bootexample.model.TestUser;
-import com.young.bootexample.model.TestUserExample;
+import com.young.model.TestUser;
+import com.young.model.TestUserExample;
 
 import java.util.List;
 

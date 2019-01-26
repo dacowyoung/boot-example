@@ -271,3 +271,59 @@ public void addTwo() {
 ```
  
 
+### 7.AOP统一处理请求日志
+* AOP是一种编程范式,与语言无关,是一个程序设计思想.  
+面向切面(AOP) : Aspect Oriented Programming  
+面向对象(OOP) : Object Oriented Programming  
+面向过程(POP) : Procedure Oriented Programming  
+* 面向过程(C)-->到面向对面(java)-->面向切面
+* 将通用逻辑从业务逻辑中分离出来
+* 添加spring-boot-starter-aop依赖
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+* 编写HttpAspect请求日志切面
+```
+@Aspect
+@Component
+public class HttpAspect {
+
+    private final static Logger log = LoggerFactory.getLogger(HttpAspect.class);
+
+    @Pointcut("execution(public * com.young.ctrl.UserCtrl.*(..))")
+    public void log() {
+    }
+
+    @Before("log()")
+    public void Before(JoinPoint point) {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        //url
+        log.info("url={}", request.getRequestURL());
+        //method_type
+        log.info("method_type={}", request.getMethod());
+        //ip
+        log.info("ip={}", request.getRemoteAddr());
+        //类方法
+        log.info("class_method={}", point.getSignature().getDeclaringTypeName() + "." + point.getSignature().getName());
+        //参数
+        log.info("args={}", point.getArgs());
+    }
+
+    @After("log()")
+    public void doAfter() {
+        log.info("----------After----------");
+    }
+
+    @AfterReturning(pointcut = "log()", returning = "object")
+    public void doAfterReturning(Object object) {
+        log.info("response={}", object);
+    }
+}
+```
+* 查看日志截图  
+![日志截图](pic/日志图片.png)
+

@@ -1,4 +1,4 @@
-package com.young.bootexample.configure;
+package com.young.configure;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-@MapperScan({ "com.young.bootexample.dao"})
+@MapperScan({ "com.young.dao"})
 public class MybatisConfiguration {
     
 }

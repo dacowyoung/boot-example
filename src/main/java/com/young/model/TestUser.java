@@ -1,4 +1,4 @@
-package com.young.bootexample.model;
+package com.young.model;
 
 public class TestUser {
     /**
@@ -30,7 +30,6 @@ public class TestUser {
      * This method returns the value of the database column test_user.id
      *
      * @return the value of test_user.id
-     *
      * @mbggenerated Wed Jan 23 17:13:47 CST 2019
      */
     public String getId() {
@@ -42,7 +41,6 @@ public class TestUser {
      * This method sets the value of the database column test_user.id
      *
      * @param id the value for test_user.id
-     *
      * @mbggenerated Wed Jan 23 17:13:47 CST 2019
      */
     public void setId(String id) {
@@ -54,7 +52,6 @@ public class TestUser {
      * This method returns the value of the database column test_user.name
      *
      * @return the value of test_user.name
-     *
      * @mbggenerated Wed Jan 23 17:13:47 CST 2019
      */
     public String getName() {
@@ -66,7 +63,6 @@ public class TestUser {
      * This method sets the value of the database column test_user.name
      *
      * @param name the value for test_user.name
-     *
      * @mbggenerated Wed Jan 23 17:13:47 CST 2019
      */
     public void setName(String name) {
@@ -78,7 +74,6 @@ public class TestUser {
      * This method returns the value of the database column test_user.age
      *
      * @return the value of test_user.age
-     *
      * @mbggenerated Wed Jan 23 17:13:47 CST 2019
      */
     public Integer getAge() {
@@ -90,10 +85,18 @@ public class TestUser {
      * This method sets the value of the database column test_user.age
      *
      * @param age the value for test_user.age
-     *
      * @mbggenerated Wed Jan 23 17:13:47 CST 2019
      */
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
     }
 }
