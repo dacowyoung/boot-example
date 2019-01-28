@@ -46,6 +46,12 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.3.2</version>
         </dependency>
+        <!--md文档目录生成依赖-->
+        <dependency>
+            <groupId>com.github.houbb</groupId>
+            <artifactId>markdown-toc</artifactId>
+            <version>1.0.2</version>
+        </dependency>
     </dependencies>
 
     <build>

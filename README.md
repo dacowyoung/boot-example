@@ -1,3 +1,18 @@
+# Table of Contents
+
+* [boot-example](#boot-example)
+    * [一. 前言](#一-前言)
+    * [二. springboot知识整理](#二-springboot知识整理)
+      * [1.springboot的特点](#1springboot的特点)
+      * [2.hello,springboot!](#2hellospringboot)
+      * [3.自定义属性配置](#3自定义属性配置)
+      * [4.数据库操作相关配置依赖](#4数据库操作相关配置依赖)
+      * [5.restful API](#5restful-api)
+      * [6.事务管理](#6事务管理)
+      * [7.AOP统一处理请求日志](#7aop统一处理请求日志)
+      * [8.统一返回结果和异常处理](#8统一返回结果和异常处理)
+
+
 # boot-example
 ### 一. 前言 
         从2016年底springboot的技术预研,到2017年初正式使用springboot相关技术搭建并运行项目,一晃已经到2019年了.
@@ -84,7 +99,6 @@ spring:
     username: develop
     password: develop
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
 ```
 ```
@@ -103,7 +117,6 @@ spring:
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    #支持驼峰命名自动映射
     mapUnderscoreToCamelCase: true
   mapperLocations:
     - classpath*:mybatis/**/*.xml
@@ -271,7 +284,7 @@ public void addTwo() {
 ```
  
 
-### 7.AOP统一处理请求日志
+#### 7.AOP统一处理请求日志
 * AOP是一种编程范式,与语言无关,是一个程序设计思想.  
 面向切面(AOP) : Aspect Oriented Programming  
 面向对象(OOP) : Object Oriented Programming  
@@ -327,7 +340,7 @@ public class HttpAspect {
 * 查看日志截图  
 ![日志截图](pic/日志图片.png)
 
-### 8.统一返回结果和异常处理
+#### 8.统一返回结果和异常处理
 * 统一返回结果,定义Result结果封装类和ResultUtil工具类
 ```
 @JsonInclude(JsonInclude.Include.NON_NULL)
