@@ -418,8 +418,8 @@ public class ResultUtil {
     "msg": "服务器错误,请联系管理员"
 }
 ```
-将返回结果封装成统一格式,方便于客户端对结果进行统一处理.
-* 统一异常处理.一方面是对服务器的异常或者运行时错误进行统一处理,放置直接将服务端信息暴露到客户端.另一方便针对于业务上的判断逻辑错误,可以更容易的返回给客户端.  
+将返回结果封装成统一格式,方便于客户端对结果进行处理.
+* 统一异常处理.一方面是对服务器的异常或者运行时错误进行统一处理,避免直接将服务端信息暴露到客户端.另一方便能将业务上的逻辑错误,更优雅的返回给客户端.  
 自定义业务异常类BusinessException:
 ```
 public class BusinessException extends RuntimeException {
@@ -440,7 +440,7 @@ public class BusinessException extends RuntimeException {
     }
 }
 ```
-注意:自定义异常时要继承RuntimeException,而不是Exception,只有RuntimeException才能在抛出后进行事务回滚
+注意:自定义异常时要继承RuntimeException,而不是Exception,只有RuntimeException才能在抛出后进行事务回滚  
 业务处理类ExceptionHandle:
 ```
 @ControllerAdvice
@@ -460,7 +460,7 @@ public class ExceptionHandler {
     }
 }
 ```
-注意:@ControllerAdvice在ctrl层的切面注解,在ctrl对抛出的异常进行捕获
+注意:@ControllerAdvice在ctrl层的切面注解,在ctrl对抛出的异常进行捕获  
 业务异常code维护枚举:
 ```
 public enum ResultEnum {
@@ -489,7 +489,7 @@ public enum ResultEnum {
         return msg;
     }}
 ```
-将业务异常返回状态信息进行统一维护,方便于后期的编码和bug追溯
+将业务异常返回状态信息进行统一维护,方便于后期的编码和bug追溯  
 服务实现类返回异常:
 ```
 public void getAge(String id) {
