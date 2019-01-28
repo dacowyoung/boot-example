@@ -22,4 +22,6 @@ public interface UserService {
     void del(String id);
 
     void addTwo();
+
+    void getAge(String id);
 }

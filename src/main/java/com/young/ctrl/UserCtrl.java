@@ -1,7 +1,9 @@
 package com.young.ctrl;
 
+import com.young.data.Result;
 import com.young.model.TestUser;
 import com.young.service.UserService;
+import com.young.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author: young
@@ -29,33 +29,42 @@ public class UserCtrl {
     private UserService userService;
 
     @PostMapping("/user")
-    public void add(@RequestBody TestUser user) {
+    public Result add(@RequestBody TestUser user) {
         userService.add(user);
+        return ResultUtil.success();
     }
 
     @PutMapping("/user")
-    public void edit(@RequestBody TestUser user) {
+    public Result edit(@RequestBody TestUser user) {
         userService.edit(user);
+        return ResultUtil.success();
     }
 
     @GetMapping("/user")
-    public TestUser findOne(@RequestParam("id") String id) {
-        return userService.findOne(id);
+    public Result findOne(@RequestParam("id") String id) {
+        return ResultUtil.success(userService.findOne(id));
+
     }
 
     @GetMapping("/user/list")
-    public List<TestUser> list(TestUser user) {
-        return userService.list(user);
+    public Result list(TestUser user) {
+        return ResultUtil.success(userService.list(user));
     }
 
     @DeleteMapping("/user")
-    public void del(@RequestParam("id") String id) {
+    public Result del(@RequestParam("id") String id) {
         userService.del(id);
+        return ResultUtil.success();
     }
 
     @GetMapping("/user/addTwo")
     public void addTwo() {
         userService.addTwo();
+    }
+    
+    @GetMapping("/user/getAge")
+    public void getAge(@RequestParam("id") String id){
+        userService.getAge(id);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.young.service.impl;
 
 import com.young.dao.TestUserMapper;
+import com.young.enums.ResultEnum;
+import com.young.exception.BusinessException;
 import com.young.model.TestUser;
 import com.young.model.TestUserExample;
 import com.young.service.UserService;
@@ -66,9 +68,20 @@ public class UserServiceImpl implements UserService {
         user.setName("军军");
         user.setAge(20);
         mapper.insert(user);
-        
+
         TestUser user1 = new TestUser();
         user1.setName("壮司机");
         mapper.insert(user1);
+    }
+
+    @Override
+    public void getAge(String id) {
+        TestUser user = mapper.selectByPrimaryKey(id);
+        Integer age = user.getAge();
+        if (age < 10) {
+            throw new BusinessException(ResultEnum.LITTLE_BOY);
+        } else if (age < 16) {
+            throw new BusinessException(ResultEnum.YOUNG_MAN);
+        }
     }
 }
