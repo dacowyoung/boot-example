@@ -327,3 +327,186 @@ public class HttpAspect {
 * 查看日志截图  
 ![日志截图](pic/日志图片.png)
 
+### 8.统一返回结果和异常处理
+* 统一返回结果,定义Result结果封装类和ResultUtil工具类
+```
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Result {
+
+    private Integer code;
+
+    private String msg;
+
+    private Object data;
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public Result setCode(Integer code) {
+        this.code = code;
+        return this;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public Result setMsg(String msg) {
+        this.msg = msg;
+        return this;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public Result setData(Object data) {
+        this.data = data;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
+}
+```
+@JsonInclude(JsonInclude.Include.NON_NULL),注解功能,返回json结果时自动忽略空值字段.
+```
+public class ResultUtil {
+    
+    public static Result success(Object object){
+        Result result = new Result();
+        result.setCode(0);
+        result.setMsg("成功");
+        result.setData(object);
+        return result;
+    }
+    
+    public static Result success(){
+        return success(null);
+    }
+    
+    public static Result error(Integer code,String msg){
+        Result result = new Result();
+        result.setCode(code);
+        result.setMsg(msg);
+        return result;
+    }
+}
+```
+返回数据类型:
+```
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "id": "3",
+        "name": "壮壮",
+        "age": 5
+    }
+}
+```
+```
+{
+    "code": 500,
+    "msg": "服务器错误,请联系管理员"
+}
+```
+将返回结果封装成统一格式,方便于客户端对结果进行统一处理.
+* 统一异常处理.一方面是对服务器的异常或者运行时错误进行统一处理,放置直接将服务端信息暴露到客户端.另一方便针对于业务上的判断逻辑错误,可以更容易的返回给客户端.  
+自定义业务异常类BusinessException:
+```
+public class BusinessException extends RuntimeException {
+    private Integer code;
+
+    public BusinessException(ResultEnum resultEnum) {
+        super(resultEnum.getMsg());
+        this.code = resultEnum.getCode();
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public BusinessException setCode(Integer code) {
+        this.code = code;
+        return this;
+    }
+}
+```
+注意:自定义异常时要继承RuntimeException,而不是Exception,只有RuntimeException才能在抛出后进行事务回滚
+业务处理类ExceptionHandle:
+```
+@ControllerAdvice
+public class ExceptionHandler {
+
+    private final static Logger log = LoggerFactory.getLogger(ExceptionHandle.class);
+
+    @ExceptionHandler(value = Exception.class)
+    @ResponseBody
+    public Result handle(Exception e) {
+        if (e instanceof BusinessException) {
+            BusinessException businessException = (BusinessException) e;
+            return ResultUtil.error(businessException.getCode(), businessException.getMessage());
+        }
+        log.error("[系统异常]{}",e);
+        return ResultUtil.error(500, "服务器错误,请联系管理员");
+    }
+}
+```
+注意:@ControllerAdvice在ctrl层的切面注解,在ctrl对抛出的异常进行捕获
+业务异常code维护枚举:
+```
+public enum ResultEnum {
+
+    SERVER_ERROR(500, "服务器错误"),
+    SUCCESS(0, "成功"),
+    LITTLE_BOY(100, "小屁孩"),
+    YOUNG_MAN(101, "小伙子"),
+
+    ;
+
+    private Integer code;
+
+    private String msg;
+
+    ResultEnum(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }}
+```
+将业务异常返回状态信息进行统一维护,方便于后期的编码和bug追溯
+服务实现类返回异常:
+```
+public void getAge(String id) {
+    TestUser user = mapper.selectByPrimaryKey(id);
+    Integer age = user.getAge();
+    if (age < 10) {
+        throw new BusinessException(ResultEnum.LITTLE_BOY);
+    } else if (age < 16) {
+        throw new BusinessException(ResultEnum.YOUNG_MAN);
+    }
+}
+```
+返回业务异常json:
+```
+{
+    "code": 100,
+    "msg": "小屁孩"
+}
+```
+注意:msg只针对于开发人员日志查看和bug追溯,不能直接应用于客户端显示.客户端应以code为标识,进行不同的页面显示和逻辑跳转.

@@ -1,4 +1,4 @@
-package com.young.handle;
+package com.young.handler;
 
 import com.young.data.Result;
 import com.young.exception.BusinessException;
@@ -6,7 +6,6 @@ import com.young.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -15,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @desc: ctrl异常捕获
  */
 @ControllerAdvice
-public class ExceptionHandle {
+public class ExceptionHandler {
 
-    private final static Logger log = LoggerFactory.getLogger(ExceptionHandle.class);
+    private final static Logger log = LoggerFactory.getLogger(ExceptionHandler.class);
 
-    @ExceptionHandler(value = Exception.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
     @ResponseBody
     public Result handle(Exception e) {
         if (e instanceof BusinessException) {
