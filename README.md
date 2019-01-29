@@ -523,3 +523,47 @@ public void getAge(String id) {
 }
 ```
 注意:msg只针对于开发人员日志查看和bug追溯,不能直接应用于客户端显示.客户端应以code为标识,进行不同的页面显示和逻辑跳转.
+#### 8.单元测试
+* 测试service
+```
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class UserServiceTest {
+
+    @Autowired
+    private UserService userService;
+
+    @Test
+    public void findOne() {
+        TestUser user = userService.findOne("3");
+        Assert.assertEquals(new Integer(18), user.getAge());
+
+    }
+}
+```
+![测试service](pic/测试service.png)
+* 测试ctrl,API
+```
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+public class UserCtrlTest {
+
+    @Autowired
+    private MockMvc mvc;
+
+    @Test
+    public void list() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/user/list/2"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+}
+```
+![测试ctrl](pic/测试ctrl.png)
+* 编写完代码后不要忙于提交,而是要编写相应的测试用例进行回测.一方面可以对代码进行功能逻辑校验,另一方面也方便于后期对bug的调试和修复.
+* maven打包时会执行项目中所有的测试用例,避免将功能不完善的项目包部署到环境上.二次打包时则可跳过测试(mvn clean package -DskipTests)
+
+### 三. 后记
+        一个星期断断续续的记录着,这篇以自己两年springboot使用经验总结而成的boot-example精简版本落成.看了这么多大牛的博客和文章,很幸运自己也走出了这第一步,同时又很羞愧,炒个冷饭也要拿出来说.没事儿,自个端着蹲角落吃呗.  
+        再此也感谢在网络上以博客,文章,公众号等各种形式媒体传播技术知识的前辈和同道者们,有了你们,就有了榜样,也有了伙伴,不孤单,也不寂寞,真好.
+    
