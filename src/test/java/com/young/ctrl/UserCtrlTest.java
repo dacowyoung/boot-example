@@ -27,4 +27,6 @@ public class UserCtrlTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("abc"));
     }
+    
+    
 }
