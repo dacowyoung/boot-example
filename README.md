@@ -602,7 +602,7 @@ public class UserCtrlTest {
 <dependency>
     <groupId>io.netty</groupId>
     <artifactId>netty-all</artifactId>
-    <version>4.1.6.Final</version>
+    <version>[4.1.42,)</version>
 </dependency>
  ```
 * 服务端客户端简单实现
