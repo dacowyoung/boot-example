@@ -13,6 +13,8 @@
       * [8.统一返回结果和异常处理](#8统一返回结果和异常处理)
       * [9.单元测试](#9单元测试)
     * [三. 后记](#三-后记)
+    * [四. 后续学习](#四-后续学习)
+      * [1.Netty编程](#1netty编程)
 
 ### 一. 前言 
         从2016年底springboot的技术预研,到2017年初正式使用springboot相关技术搭建并运行项目,一晃已经到2019年了.
@@ -568,4 +570,92 @@ public class UserCtrlTest {
     很幸运自己也走出了这第一步,同时又很羞愧,炒个冷饭也要拿出来说.没事儿,自个端着蹲角落吃呗.  
         再此也感谢在网络上以博客,文章,公众号等各种形式媒体传播技术知识的前辈和同道者们.
         有了你们,就有了榜样,也有了伙伴,不孤单,也不寂寞,真好.
-    
+### 四. 后续学习
+#### 1.Netty编程
+```
+ * [What is it]
+ * 1.Netty 是一个 基于 NIO 的 client-server(客户端服务器)框架，使用它可以快速简单地开发网络应用程序
+ * 2.它极大地简化并优化了 TCP 和 UDP 套接字服务器等网络编程,并且性能以及安全性等很多方面甚至都要更好
+ * 3.支持多种协议 如 FTP，SMTP，HTTP 以及各种二进制和基于文本的传统协议
+ * 官方总结 : Netty 成功地找到了一种在不妥协可维护性和性能的情况下实现易于开发，性能，稳定性和灵活性的方法
+ * 
+ * [Why use it]
+ * 使用JDK自带的NIO需要了解太多的概念，编程复杂，一不小心bug横飞。
+ * Netty底层IO模型随意切换，而这一切只需要做微小的改动，改改参数，Netty可以直接从NIO模型变身为IO模型。
+ * Netty自带的拆包解包，异常检测等机制让你从NIO的繁重细节中脱离出来，让你只需要关心业务逻辑。
+ * Netty解决了JDK的很多包括空轮询在内的bug。
+ * Netty底层对线程，selector做了很多细小的优化，精心设计的reactor线程模型做到非常高效的并发处理。
+ * Netty自带各种协议栈让你处理任何一种通用协议都几乎不用亲自动手。
+ * Netty社区活跃，遇到问题随时邮件列表或者issue。
+ * Netty已经历各大rpc框架，消息中间件，分布式通信中间件线上的广泛验证，健壮性无比强大，而且很多开源项目都使用到了 Netty， 比如我们经常接触的 Dubbo、RocketMQ 等等。
+ * 
+ * [Where to use]
+ * Netty 主要用来做网络通信,NIO 可以做的事情 ，使用 Netty 都可以做并且更好
+ * 1.作为 RPC 框架的网络通信工具
+ * 2.实现一个自己的 HTTP 服务器
+ * 3.实现一个即时通讯系统
+ * 4.实现消息推送系统
+ ```
+ * Maven依赖
+ ```
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-all</artifactId>
+    <version>4.1.6.Final</version>
+</dependency>
+ ```
+* 服务端客户端简单实现
+``` 
+public class NettyClient {
+
+    public static void main(String[] args) throws InterruptedException {
+        Bootstrap bootstrap = new Bootstrap();
+        NioEventLoopGroup group = new NioEventLoopGroup();
+
+        bootstrap.group(group)
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer<Channel>() {
+                    @Override
+                    protected void initChannel(Channel ch) {
+                        ch.pipeline().addLast(new StringEncoder());
+                    }
+                });
+
+        Channel channel = bootstrap.connect("127.0.0.1", 8000).channel();
+
+        //noinspection InfiniteLoopStatement
+        while (true) {
+            channel.writeAndFlush(LocalTime.now() + ": hello netty!");
+            Thread.sleep(2000);
+        }
+    }
+}
+```
+```
+public class NettyClient {
+
+    public static void main(String[] args) throws InterruptedException {
+        Bootstrap bootstrap = new Bootstrap();
+        NioEventLoopGroup group = new NioEventLoopGroup();
+
+        bootstrap.group(group)
+                .channel(NioSocketChannel.class)
+                .handler(new ChannelInitializer<Channel>() {
+                    @Override
+                    protected void initChannel(Channel ch) {
+                        ch.pipeline().addLast(new StringEncoder());
+                    }
+                });
+
+        Channel channel = bootstrap.connect("127.0.0.1", 8000).channel();
+
+        //noinspection InfiniteLoopStatement
+        while (true) {
+            channel.writeAndFlush(LocalTime.now() + ": hello netty!");
+            Thread.sleep(2000);
+        }
+    }
+}
+```
+* 输出展示  
+![netty](pic/netty.png)
