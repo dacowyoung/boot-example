@@ -40,7 +40,7 @@
 
 #### 2.hello,springboot!
 * idea编辑器使用 [idea官网下载](https://www.jetbrains.com/idea/) , [idea快捷键及使用技巧](https://www.cnblogs.com/jajian/category/1280011.html)
-* 项目构建,建议使用spring官网提供的入口 https://start.spring.io/ 进行构建,构建完成后项目会自动下载zip包 
+* 项目构建,建议使用spring官网提供的入口 <https://start.spring.io/> 进行构建,构建完成后项目会自动下载zip包 
 * idea导入项目,左上角File-->Open,然后选中zip包解压后的项目
 * dependency中添加spring-boot-starter-web
 * 新建类HelloCtrl,并写一个say方法
@@ -160,13 +160,14 @@ generatorConfig.xml自动生成配置文件
     <javaModelGenerator targetPackage="com.young.bootexample.model" targetProject="src/main/java" />
     <sqlMapGenerator targetPackage="mybatis.auto" targetProject="src/main/resources" />
     <javaClientGenerator targetPackage="com.young.bootexample.dao" targetProject="src/main/java" type="XMLMAPPER" />
-    <table tableName="test_user"></table>
-    <table tableName="***"></table>
+    <table tableName="test_user" enableDeleteByExample = "false"/>
+    <table tableName="***" enableDeleteByExample = "false"/>
     ...
   </context>
 </generatorConfiguration>
 ```
-在数据库设计完成后,对应的表名配置完成后,使用idea中右侧maven-->Plugins-->mybatis-generator,自动生成对应model,mapper,xml文件,简化开发
+在数据库设计完成后,对应的表名配置完成后,使用idea中右侧maven-->Plugins-->mybatis-generator,自动生成对应model,mapper,xml文件,简化开发  
+mybatis逆向工程中禁用deleteByExample方法生成,预防当example为空时,删除全表的情况发生
 
 #### 5.restful API
 * 创建UserCtrl
