@@ -19,7 +19,7 @@ public class NettyClient {
     public static void main(String[] args) throws InterruptedException {
         Bootstrap bootstrap = new Bootstrap();
         NioEventLoopGroup group = new NioEventLoopGroup();
-
+        
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<Channel>() {
